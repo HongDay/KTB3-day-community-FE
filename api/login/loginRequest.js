@@ -1,6 +1,10 @@
-const API_URL = "http://localhost:8080/auth";
+import { API_DOMAIN } from "../../config.js";
+console.log(API_DOMAIN);
+const API_URL = API_DOMAIN + "/auth";
 
 export async function login(email, password) {
+    console.log(API_DOMAIN);
+    console.log(API_URL);
     try {
         const url = new URL(API_URL);
 

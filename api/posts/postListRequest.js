@@ -1,4 +1,6 @@
-const API_URL = "http://localhost:8080/posts?size=5";
+import { API_DOMAIN } from "../../config.js";
+console.log(API_DOMAIN);
+const API_URL = API_DOMAIN + "/posts?size=5";
 
 export async function fetchPosts(cursorId) {
     try {

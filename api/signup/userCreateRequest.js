@@ -1,4 +1,6 @@
-const API_URL = "http://localhost:8080/users";
+import { API_DOMAIN } from "../../config.js";
+console.log(API_DOMAIN);
+const API_URL = API_DOMAIN + "/users";
 
 export async function createUsers(email, password, nickname, profileImage) {
     try {

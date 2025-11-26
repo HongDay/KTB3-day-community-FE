@@ -1,4 +1,6 @@
-const API_URL = "http://localhost:8080/users/availability/email";
+import { API_DOMAIN } from "../../config.js";
+console.log(API_DOMAIN);
+const API_URL = API_DOMAIN + "/users/availability/email";
 
 export async function checkEmail(email) {
     try {
