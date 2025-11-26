@@ -1,19 +1,51 @@
-const API_URL = "http://localhost:8080/users/image";
+import { LAMBDA_DOMAIN } from "../../config.js";
+console.log(LAMBDA_DOMAIN);
 
-export async function getURL(file) {
+const GET_API_URL = LAMBDA_DOMAIN;
+
+export async function uploadS3(presigned, file, fields) {
+    const formData = new FormData();
+    
+    Object.entries(fields).forEach(([key, value]) => {
+        formData.append(key, value);    
+    })
+
+    formData.append("file", file);
+
+    const response = await fetch(presigned, {
+        method: "POST",
+        body: formData,
+    });
+
+    if (response.ok) {
+        console.log("Upload Success");
+        return true;
+    } else {
+        console.error("Upload Failed", response.status, await response.text());
+        return false;
+    }
+}
+
+export async function getURL(fileName, contentType, isProfile) {
     try {
-        const url = new URL(API_URL);
+        const url = new URL(GET_API_URL);
 
         const res = await fetch(url, {
             method: "POST",
-            body: file
+            body: JSON.stringify({
+                fileName: fileName,
+                contentType: contentType,
+                isProfile: isProfile
+            }),
         });
 
         const json = await res.json();
+        console.log(json);
 
-        const postUrl = json?.data?.url ?? [];
+        const uploadUrl = json?.uploadUrl ?? [];
+        const fields = json?.fields ?? [];
 
-        return postUrl;
+        return {uploadUrl, fields};
     } catch (err) {
         console.error(err);
         return -1;

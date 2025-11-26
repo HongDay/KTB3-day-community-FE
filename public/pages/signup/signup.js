@@ -1,5 +1,6 @@
 import { createUsers } from "../../../api/signup/userCreateRequest.js";
 import { getURL } from "../../../api/signup/userImageUrlRequest.js";
+import { uploadS3 } from "../../../api/signup/userImageUrlRequest.js";
 import { checkEmail } from "../../../api/signup/userEmailCheckRequest.js";
 import { checkNickname } from "../../../api/signup/userNicknameCheckRequest.js";
 import { mountHeader } from "../../component/header.js";
@@ -127,10 +128,17 @@ signupBtn.addEventListener("click", async () => {
     if(!filled){return;}
   
     // 백엔드 통신
-    const formData = new FormData();
-    formData.append("img", file);
-    const imageUrl = await getURL(formData); // 서버에 저장하고 그 경로를 받는 API -> S3 URL 받아와서 거기에 업로드하는 API 변경예정
-    if (!imageUrl || imageUrl==-1) {
+    const {uploadUrl, fields} = await getURL(file.name, file.type, true);
+    console.log(uploadUrl);
+    console.log(fields.key);
+
+    // S3 업로드
+    let imageUrl;
+    const uploaded = await uploadS3(uploadUrl, file, fields);
+    if (uploaded) {
+        imageUrl = `${uploadUrl}${fields.key}`;
+        console.log(imageUrl);
+    } else {
         alert("사진이 서버로 제대로 전송되지 않았습니다.");
         return;
     }
