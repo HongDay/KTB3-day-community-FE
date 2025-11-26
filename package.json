@@ -4,6 +4,7 @@
   "description": "KTB 3기 클라우드 과정 - 커뮤니티 구축 개인프로젝트 (FrontEnd) - day.hong(홍대의)",
   "main": "index.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
