@@ -24,6 +24,13 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+
+      - name: Generate config.js
+        run: |
+          cat > config.js << 'EOF'
+          export const API_DOMAIN = "${{ secrets.API_DOMAIN }}";
+          export const LAMBDA_DOMAIN = "${{ secrets.LAMBDA_DOMAIN }}";
+          EOF
           
       - name: Install dependencies
         run: npm install

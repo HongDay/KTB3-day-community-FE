@@ -32,3 +32,24 @@ describe('GET static resources', () => {
     })
 
 });
+
+import { checkEmail } from '../api/signup';
+
+describe('check checkEmail() function', () => {
+    beforeEach(() => {
+        global.fetch = jest.fn();
+    })
+    it("check request URL", async() => {
+        global.fetch.mockResolvedValue({
+            ok: true,
+            json: async () => ({ available: false })
+        });
+
+        const result = await checkEmail('asdlkfjawefiojqewofi');
+
+        expect(global.fetch).toHaveBeenCalledWith(
+            expect.stringContaining('https://ktbpractice-hongday.n-e.kr')
+        );
+        expect(result).toBe(false);
+    });
+});
