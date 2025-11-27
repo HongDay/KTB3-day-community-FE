@@ -136,7 +136,8 @@ signupBtn.addEventListener("click", async () => {
     let imageUrl;
     const uploaded = await uploadS3(uploadUrl, file, fields);
     if (uploaded) {
-        imageUrl = `${uploadUrl}${fields.key}`;
+        //imageUrl = `${uploadUrl}${fields.key}`;
+        imageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/KakaoTalk_logo.svg/960px-KakaoTalk_logo.svg.png?20190617212005";
         console.log(imageUrl);
     } else {
         alert("사진이 서버로 제대로 전송되지 않았습니다.");
