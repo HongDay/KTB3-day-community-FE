@@ -27,3 +27,5 @@ export async function checkEmail(email) {
         return -1;
     }
 }
+
+export default checkEmail;

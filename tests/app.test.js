@@ -1,8 +1,15 @@
-const request = require('supertest');
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
+import { jest } from '@jest/globals';
 
+import request from 'supertest';
+import express from 'express';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+import checkEmail from '../api/signup/userEmailCheckRequest.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -13,7 +20,7 @@ app.get('/health', (_req, res) => {
 })
 
 // index.html 파일
-indexHtml = fs.readFileSync(
+const indexHtml = fs.readFileSync(
     path.join(__dirname, '..', 'index.html'),
     'utf8'
 );
@@ -33,8 +40,6 @@ describe('GET static resources', () => {
 
 });
 
-const { checkEmail } = require('../api/signup');
-
 describe('check checkEmail() function', () => {
     beforeEach(() => {
         global.fetch = jest.fn();
@@ -42,14 +47,13 @@ describe('check checkEmail() function', () => {
     it("check request URL", async() => {
         global.fetch.mockResolvedValue({
             ok: true,
-            json: async () => ({ available: false })
+            json: async () => ({ data: { availability: false } })
         });
 
         const result = await checkEmail('asdlkfjawefiojqewofi');
 
-        expect(global.fetch).toHaveBeenCalledWith(
-            expect.stringContaining('https://ktbpractice-hongday.n-e.kr')
-        );
+        const [calledUrl] = global.fetch.mock.calls[0];
+        expect(calledUrl.toString()).toContain('https://ktbpractice-hongday.n-e.kr');
         expect(result).toBe(false);
     });
 });

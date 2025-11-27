@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "KTB 3기 클라우드 과정 - 커뮤니티 구축 개인프로젝트 (FrontEnd) - day.hong(홍대의)",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node app.js",
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "repository": {
     "type": "git",
