@@ -33,7 +33,7 @@ describe('GET static resources', () => {
 
 });
 
-import { checkEmail } from '../api/signup';
+const { checkEmail } = require('../api/signup');
 
 describe('check checkEmail() function', () => {
     beforeEach(() => {
