@@ -75,6 +75,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
       - name: Check if Docker is installed
         id: check-docker
         run: |
@@ -82,13 +83,7 @@ jobs:
           ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
           'command -v docker >/dev/null && echo "true" || echo "false"')
           echo "docker_exists=$DOCKER_EXISTS" >> $GITHUB_OUTPUT
-      - name: Check if Node.js is installed
-        id: check-nodejs
-        run: |
-          NODE_EXISTS=$(ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
-          ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
-          'command -v node >/dev/null && echo "true" || echo "false"')
-          echo "node_exists=$NODE_EXISTS" >> $GITHUB_OUTPUT
+          
       - name: Install Docker on EC2
         if: steps.check-docker.outputs.docker_exists == 'false'
         run: |
@@ -111,15 +106,6 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
             sudo usermod -aG docker $USER
-          EOF
-
-      - name: Install Node.js on EC2
-        if: steps.check-nodejs.outputs.node_exists == 'false'
-        run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
-          ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
-            curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-            sudo apt-get install -y nodejs
           EOF
 
       - name: Deploy to EC2 via Docker Compose
