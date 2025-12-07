@@ -23,17 +23,18 @@ body {
 }
 
 .center-box h1 {
-    font-size: 4rem;
+    font-size: 6rem;
     color: #fff;
+    -webkit-text-stroke: 3px #003377;
     margin-bottom: 1.5rem;
   }
 
 .center-box button {
-    background-color: #9066af;
+    background-color: #4066af;
     color: white;
     font-size: 1.5rem;
     padding: 0.5rem 1rem;
-    border: none;
+    border: 3px solid #003377;
     border-radius: 7px;
     cursor: pointer;
     transition: background-color 0.2s ease;

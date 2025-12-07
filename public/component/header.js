@@ -13,7 +13,7 @@ export async function mountHeader({ hideBack=false, hideAvatar=false, avatarSrc 
     const h1     = frag.querySelector(".title");
     const avatar = frag.querySelector(".avatar");
   
-    h1.textContent = "아무 말 대잔치";
+    h1.textContent = "LifeLogU";
     if (avatarSrc) avatar.src = avatarSrc;
   
     back.style.display   = hideBack   ? "none" : "";
