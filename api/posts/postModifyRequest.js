@@ -5,12 +5,14 @@ const API_URL = API_DOMAIN + "/posts";
 export async function modifyPosts(title, content, imageUrl, postId) {
     try {
         const url = new URL(`${API_URL}/${postId}`);
+        const accessToken = localStorage.getItem("accessToken");
 
         const res = await fetch(url, {
             method: "PATCH",
             headers: {
                 "Accept" : "application/json",
                 "Content-Type" : "application/json",
+                "Authorization": `Bearer ${accessToken}`,
             },
             body: JSON.stringify({
                 title: title,

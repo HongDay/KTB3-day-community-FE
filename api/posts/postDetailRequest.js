@@ -5,11 +5,13 @@ const API_URL = API_DOMAIN + "/posts";
 export async function fetchPostDetail(postId) {
     try {
         const url = new URL(`${API_URL}/${postId}`);
+        const accessToken = localStorage.getItem("accessToken");
 
         const res = await fetch(url, {
             method: "GET",
             headers: {
                 "Accept" : "application/json",
+                "Authorization": `Bearer ${accessToken}`,
             },
             credentials: "include",
         });

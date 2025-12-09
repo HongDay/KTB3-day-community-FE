@@ -24,6 +24,9 @@ export async function login(email, password) {
 
         const message = json?.message ?? [];
         const data = json?.data ?? null;
+        
+        const accessToken = json?.data?.token ?? "";
+        localStorage.setItem("accessToken", accessToken); // 임시
 
         console.log(data);
         console.log(message);
